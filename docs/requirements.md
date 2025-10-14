@@ -1,9 +1,9 @@
 # 📘 Documento de Requisitos do Sistema (DRS)
 
 ## Projeto: SoulQuest — Gerenciador de Rotina Gamificado com IA
-**Versão:** 0.1  
+**Versão:** 0.2  
 **Autores:** Joelson + Assistente  
-**Data:** 2025-10-11  
+**Data:** 2025-10-14  
 
 ---
 
@@ -53,6 +53,86 @@ O sistema usa IA para gerar histórias, recompensas e sugestões adaptativas com
 
 ---
 
+### 4.3 Estrutura de Camadas e Fluxos Narrativos
+
+#### Visão Geral
+O *SoulQuest* é dividido em **três camadas interativas**, que representam diferentes níveis de profundidade da jornada do usuário.  
+Cada camada está interligada, de modo que ações simples (Camada 1) afetam o progresso visual (Camada 2) e o equilíbrio emocional/narrativo (Camada 3).
+
+---
+
+#### Camada 1 — Modo Lite (Ações Diárias)
+**Objetivo:** permitir interação rápida e consistente, com o mínimo de fricção.  
+**Descrição:**
+- Interface tipo checklist com tarefas diárias (“missões rápidas”).  
+- Cada tarefa concluída concede **XP e moedas**.  
+- É o principal ponto de entrada do usuário, com duração média de uso < 5 minutos/dia.  
+- Ações desta camada influenciam diretamente o **equilíbrio Luz/Sombra**.
+
+**Funções-chave:**
+- Marcar tarefas como concluídas.  
+- Ganhar XP e moedas.  
+- Alimentar o sistema de equilíbrio (Luz/Sombra).  
+- Desbloquear missões e capítulos na Camada 2.
+
+---
+
+#### Camada 2 — A Jornada do Herói (Exploração e Progressão)
+**Objetivo:** oferecer progressão, personalização e imersão narrativa.  
+**Descrição:**
+- Representa o “mundo externo” do herói.  
+- O usuário visualiza seu personagem, classes, capítulos e missões.  
+- Cada capítulo contém **missões principais e secundárias**.  
+- Missões principais estão ligadas a grandes objetivos pessoais (ex: disciplina, foco, saúde).  
+- Missões secundárias reforçam hábitos complementares.  
+- Ao final de cada capítulo, o herói enfrenta um **Boss Externo**, que simboliza desafios concretos.
+
+**Funções-chave:**
+- Visualizar status, classe, XP e progresso.  
+- Personalizar o herói (aparência, classe, título).  
+- Enfrentar Bosses externos.  
+- Desbloquear acesso à Camada 3 ao final de um arco narrativo.
+
+---
+
+#### Camada 3 — A Mente (Jornada Interior e IA Dual)
+**Objetivo:** permitir reflexão e diálogo com as “vozes interiores” do herói.  
+**Descrição:**
+- Representa o “mundo interno” — o espaço mental do personagem.  
+- O usuário interage com a IA, que possui **duas personalidades**:
+  - 🕊️ **Luz (Mentor):** encoraja, inspira e guia.  
+  - 🩸 **Sombra (Tentador):** provoca, duvida e desmotiva.  
+- Cada ação nas camadas anteriores altera o **nível de domínio** entre Luz e Sombra.
+- O fundo e o ambiente visual da interface refletem esse equilíbrio:  
+  - Domínio da Luz → tons claros e suaves.  
+  - Domínio da Sombra → tons escuros e pulsantes.  
+- O “Boss Principal” de cada arco está localizado nesta camada — ele é simbólico e representa um conflito interno.
+
+**Funções-chave:**
+- Chat IA com respostas baseadas no estado emocional e progresso do usuário.  
+- Sistema de *alignment* (`lightPower` vs `shadowPower`) dinâmico.  
+- Visual dinâmico (transição entre luz e sombra).  
+- Desbloqueio do próximo arco narrativo ao vencer o Boss interno.
+
+---
+
+#### Integração entre as Camadas
+
+| Fluxo | Descrição |
+|--------|------------|
+| **1 → 2** | Ao completar tarefas no modo Lite, o herói ganha XP e moedas, evoluindo na jornada principal. |
+| **2 → 3** | Ao concluir um capítulo ou enfrentar um Boss externo, desbloqueia o confronto interno (Boss mental). |
+| **3 → 1** | Vencer um Boss interno redefine o equilíbrio Luz/Sombra e gera novos objetivos diários na camada Lite. |
+
+---
+
+#### Futuras Expansões
+- Classes e atributos ainda em definição (ex: Mago, Guerreiro, Curador).  
+- Sistema de capítulos e missões será refinado nas próximas sprints.  
+- O balanceamento de XP, moedas e alinhamento Luz/Sombra será ajustado iterativamente conforme testes e feedback.
+
+---
+
 ## 5. Escopo MVP
 1. Autenticação (email + Google).  
 2. CRUD de tarefas (diárias, únicas, recorrentes).  
@@ -95,11 +175,11 @@ O sistema usa IA para gerar histórias, recompensas e sugestões adaptativas com
 ---
 
 ## 8. Modelo de Dados (rascunho)
-**User** { id, name, email, passwordHash, **level**, xp, coins, preferences, createdAt }
-**Task** { id, userId, title, description, type, xp, status, recurrence, createdAt }
-**Chapter** { id, title, description, createdBy, version, quests[] }
-**Quest** { id, chapterId, title, xp, prereqQuestId? }
-**AIResponseCache** { id, userId, type, inputHash, responseJson, createdAt, ttl }
+**User** { id, name, email, passwordHash, **level**, xp, coins, preferences, createdAt }  
+**Task** { id, userId, title, description, type, xp, status, recurrence, createdAt }  
+**Chapter** { id, title, description, createdBy, version, quests[] }  
+**Quest** { id, chapterId, title, xp, prereqQuestId? }  
+**AIResponseCache** { id, userId, type, inputHash, responseJson, createdAt, ttl }  
 **AIInteractionLog** { id, userId, module, promptHash, responseHash, timestamp }
 
 ---
@@ -167,18 +247,19 @@ DAU/WAU, retenção D7, tasksCompletedPerUser, avgSessionTime, AI calls per user
 ---
 
 ## 15. Entregáveis da Semana 1
-- DRS v0.1 pronto (PDF e Markdown)  
+- DRS v0.2 pronto (PDF e Markdown)  
 - Backlog inicial com épicos e user stories  
 - Modelo de dados rascunho  
-- Endpoints e prompts base definidos
+- Endpoints e prompts base definidos  
+- Nova seção 4.3 — Estrutura de Camadas e Fluxos Narrativos  
 
 ---
 
 ## 16. Próximos Passos
-1. Escolher stack final (Mongo vs Postgres)  
-2. Definir tema narrativo inicial (influencia prompts)  
-3. Configurar ambiente dev + secrets IA  
-4. Iniciar Sprint 0 (setup)  
+1. Criar diagramas visuais das camadas (fluxo e integração).  
+2. Detalhar o sistema de XP, moedas e alinhamento Luz/Sombra.  
+3. Configurar ambiente dev + secrets IA.  
+4. Iniciar Sprint 1 (Auth + Tasks CRUD).
 
 ---
 
