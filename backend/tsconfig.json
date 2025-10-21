@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    // Diretórios
+    "rootDir": "src",
+    "outDir": "dist",
+
+    // Ambiente Node
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "lib": ["ESNext"],
+    "types": ["node"],
+
+    // Interop e consistência
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    // Mapas e declarações
+    "sourceMap": true,
+    "declaration": true,
+
+    // Tipagem mais rígida
+    "strict": true,
+    "noImplicitAny": true,
+
+    // Otimizações e padrões modernos
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
